@@ -1,0 +1,120 @@
+<!doctype html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Understanding the Stellar Network</title>
+    <link rel="stylesheet" href="/etale-cohomology/stellar-tutorials/static/css/style.css">
+    
+
+  </head>
+
+  <body class="box">
+
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="/etale-cohomology/stellar-tutorials/">Home</a></li>
+        <li><a href="https://github.com/etale-cohomology">Source</a></li>
+        <li><a href="https://stellar.org">stellar.org</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="content" role="main">
+        
+<!-- <h1>Technical appendix</h1>
+<p>2013-07-15 12:00:00</p> -->
+<h1>Technical appendix</h1>
+<p><strong>Definition (safety)</strong>. A <strong>consensus protocol</strong> has <strong>safety</strong> iff it has: 1) <strong>agreement</strong> (all outputs have the same value), and 2) <strong>validity</strong> (the output value is one of the nodes')<br />
+<strong>Definition (liveness)</strong>. A <strong>consensus protocol</strong> has <strong>liveness</strong> iff it has: <strong>termination</strong> (every nonfaulty node outputs a value)<br />
+<strong>Definition (fault tolerance)</strong>. A <strong>consensus protocol</strong> has <strong>fault tolerance</strong> iff it: 1) can recover from the failure of a node, and 2) has <strong>fail-stop</strong> (endures node <strong>crashes</strong>), and 3) has <strong>Byzantine fault-tolerance</strong> (endures node <strong>arbitrary behavior</strong>)<br />
+<strong>Definition (bivalent)</strong>. A <strong>consensus protocol</strong> is in a <strong>bivalent</strong> state iff the network can affect which value nodes choose<br />
+<strong>Definition (univalent, <code>x</code>-valent)</strong>. A <strong>consensus protocol</strong> is in a <strong>univalent</strong> state iff only 1 output value is possible! For a value of <code>x</code>, the state is called <strong><code>x</code>-valent</strong><br />
+<strong>Definition (stuck)</strong>. A <strong>consensus protocol</strong> is in a <strong>stuck</strong> state iff some nonfaulty node can never output a value  </p>
+<p><strong>Definition (ill-behaved / well-behaved)</strong>.<br />
+<strong>Definition (befouled / intact)</strong>.<br />
+<strong>Definition (failed / correct)</strong>.  </p>
+<p><strong>Definition (quorum slice)</strong>.  A <strong>quorum slice</strong> <code>q</code> of a node <code>v</code> is a set of nodes that is sufficient to influence <code>v</code><br />
+<strong>Definition (FBAS)</strong>.          An <strong>FBAS</strong> is a pair <code>(V, Q)</code>; <code>V</code> is a set of <strong>nodes</strong>, <code>Q</code> is a function mapping each node <code>v</code> is to some nonempty set of <strong>sets of nodes</strong> <code>Q[v]</code>, the set of all quorum slices <code>q</code> of <code>v</code>  </p>
+<p><strong>Definition (quorum)</strong>.        A <strong>quorum</strong> is a set of nodes containing a quorum slice of each member  </p>
+<p><strong>Definition (vote)</strong>.          A node    <strong>votes</strong> for     statement <code>a</code> iff<br />
+<strong>Definition (externalize)</strong>.   A node    <strong>externalizes</strong>  statement <code>a</code> iff<br />
+<strong>Definition (accept)</strong>.        A node    <strong>accepts</strong>       statement <code>a</code> iff<br />
+<strong>Definition (reject)</strong>.        A node    <strong>rejects</strong>       statement <code>a</code> iff it <strong>accepts</strong> statement <code>NOT a</code><br />
+<strong>Definition (ratify)</strong>.        A quorum  <strong>ratifies</strong>      statement <code>a</code> iff each of its nodes <strong>votes</strong> for <code>a</code>  s
+<strong>Definition (agree)</strong>.         To <strong>agree</strong> with a statement <code>a</code> means<br />
+<strong>Definition (confirm)</strong>.       To <strong>confirm</strong> statement <code>a</code> means to <strong>ratify</strong> statement <code>accept[a]</code><br />
+<strong>Definition (neutralize)</strong>.  </p>
+<p><strong>Definition (ballot)</strong>.        A <strong>ballot</strong> is a pair <code>(n, x)</code> (<code>n</code> is a counter, <code>x</code> is a <strong>candidate operation</strong>) satisfying: if <code>(n, x)</code> is safe for some <code>n</code>, then <code>x</code> is safe<br />
+<strong>Definition (commit ballot)</strong>. [...] Equivalently, to commit a ballot is to not abort it<br />
+<strong>Definition (abort ballot)</strong>.  [...] Equivalently, to abort a ballot is to not commit it<br />
+<strong>Definition (prepared)</strong>.      A ballot is <strong>prepared</strong> iff each incompatible ballot with a lower <code>n</code> has been <strong>aborted</strong>  </p>
+<p><strong>Definition (irrefutable)</strong><br />
+<strong>Definition (neutralizable)</strong>  </p>
+<p>The <strong>dsets</strong> we care about are those that contain all <strong>ill-behaved</strong> nodes!<br />
+The <strong>dsets</strong> in an FBAS <code>(V, Q)</code> are given a priori by the quorum function!<br />
+Well- and ill-behaved nodes are determined at runtime!  </p>
+<p>The set of all ill-behaved nodes is a dset??<br />
+<strong>Theorem</strong>. In an FBAS with quorum intersection, the set of all <strong>befouled</strong> nodes is a <strong>dset</strong>.<br />
+The set of all failed nodes is a dset??  </p>
+<p><strong>Definition</strong>. A <strong>dset</strong> is a set of nodes [...] 
+<strong>Definition</strong>. A node <code>v</code> is <strong>intact</strong> iff there exists a dset containing all ill-behaved nodes and not containing <code>v</code><br />
+<strong>Definition</strong>. Let <code>v</code> be a node. A <strong><code>v</code>-blocking set</strong> is a set of nodes that intersects every quorum slice of <code>v</code><br />
+<strong>Definition</strong>. A statement is irrefutable is no <strong>intact</strong> node can vote against it  </p>
+<p><strong>Theorem (FLP impossibility)</strong>. No <strong>asynchronous deterministic consensus protocol</strong> can have <strong>safety</strong>, <strong>liveness</strong>, and <strong>fault tolerance</strong>  </p>
+<p><strong>Theorem</strong>. The union of two quorums is also a quorum.<br />
+<strong>Theorem</strong>. The intersection of two dsets is also a dset.<br />
+<strong>Theorem</strong>. Two <strong>well-behaved</strong> nodes (in an FBAS with quorum intersection) cannot <strong>ratify</strong>  contradictory statements.<br />
+<strong>Theorem</strong>. Two <strong>well-behaved</strong> nodes (in an FBAS with quorum intersection) cannot <strong>confirm</strong> contradictory statements.<br />
+<strong>Theorem</strong>. Two <strong>intact</strong>       nodes (in an FBAS with quorum intersection) cannot <strong>ratify</strong>  contradictory statements.<br />
+<strong>Theorem</strong>. Two <strong>intact</strong>       nodes (in an FBAS with quorum intersection) cannot <strong>accept</strong>  contradictory statements.<br />
+<strong>Theorem</strong>. Two contradictory statements cannot be ratified in an FBAS with quorum intersection and no ill-behaved nodes.<br />
+<strong>Theorem</strong>. Let <code>B</code> be a set of nodes. An FBAS has quorum availability despite <code>B</code> iff <code>B</code> isn't <code>v</code>-blocking for any node <code>v</code>.<br />
+<strong>Theorem</strong>. If a node <code>v</code> is intact, then no <code>v</code>-blocking set contains solely befouled nodes.  </p>
+<p><strong>The Fundamental Theorem of federated Byzantine agreement systems</strong>. If an intact node (in an FBAS with quorum intersection) <strong>confirms</strong> a statement <code>a</code>, then every intact node will eventually confirm <code>a</code>.  </p>
+<hr />
+<!-- __Consensus__ is the key to __replication__  
+The main challenge of __replicating data__: __keeping copies in sync__  
+Common technique: organize system as a __replicated state machine__: 1) all replicas agree on the __inital state__ of the system, and 2) all replicas agree on a __sequence of operations__ (needs consensus over _all_ replicas on _each_ operation!)
+
+A __ledger__ is the __state__ of __all entities at a given time__: accounts (ID/balance), the set of all transactions that will tie this ledger to the next ledger. There's also invariants: all transactions are valid in terms of their __signatures__, balance can't be negative, etc.!  
+
+SCP is the first Byzantine agreement protocol to give each participant maximum freedom in chosing which combinations of other participants to trust.
+
+Like nonfederated Byzantine agreement, FBA addresses the problem of updating replicated state, such as a ledger.
+
+In a consensus protocol, nodes exchange messages __asserting statements__ about __slots__.
+We assume such assertions cannot be forged (this can be guaranteed if nodes are named by public key and they digitally sign messages).
+When a node hears a __quorum slice__ assert a statement, it assumes __no functioning node will ever contradict that statement__.
+To permit progress in the face of node failures, __a node may have multiple slices__, _any one of which is sufficient to convince it of a statement_.
+At a high level, then, an FBA system consists of a loose confederation of nodes each of which has chosen one or more slices.
+
+A __quorum__ is a set of nodes sufficient to reach agreement  
+A __quorum slice__ is the subset of a quorum convincing one particular node of agreement  
+A __quorum slice__ may be smaller than a __quorum__  
+
+To ensure consensus is possible, a protocol must ensure that every statement is __irrefutable__ (so cannot get stuck) or __neutralizable__ (so cannot block progress). There are two popular approaches to crafting neutralizable statements: the __view-based__ approach and the __ballot-based__ approach.
+
+__Ballot-based__ protocols associate the __values__ in votes with strictly increasing __ballot numbers__. If a __ballot__ gets stuck, nodes retry the __same slot__ with a higher ballot, taking care never to select values that would contradict prior stuck ballots.  
+
+__SCP__ consists of 2 protocols:
+
+1. A __nomination protocol__  
+2. A __ballot protocol__  
+
+The __nomination protocol__ produces __candidate values__ for a __slot__. Eventually it produces the same set of candidate values at each intact node (but no one knows _when_!)  
+The __ballot protocol__ uses __federated voting__ to commit/abort ballots associated with __composite values__  
+The __ballot protocol__ is executed when nodes __guess__ that the nomination protocol has __converged__  
+
+SCP can only guarantee __safety__ when nodes choose suitable quorum slices!  
+SCP is __optimal__ is __safety__, but NOT in __performance__ or __latency__  
+SCP can suffer __perpetual preemption__  
+FBA does NOT require continuity of participants over time! If all nodes leave forever, we're boned, but if they leave for a finite amount of time, and then return, then the system continues   -->
+
+      </div>
+    </div><!-- end container -->
+
+  </body>
+
+<script src="/etale-cohomology/stellar-tutorials/static/js/script.js"></script>
+
+</html>

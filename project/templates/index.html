@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Understanding the Stellar Network</h1><br>
+<h2>Tutorials</h2>
+
+<ol class="page-list">
+  {% for page in pages %}
+    <li><a href="{{ url_for('page', path=page.path) }}">
+      {{ page.meta.title }}
+    </a></li>
+  {% endfor %}
+</ol>
+{% endblock %}
