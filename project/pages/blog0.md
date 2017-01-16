@@ -130,7 +130,7 @@ Trust is built on mathematics. How, specifically? By __computation__.
 
 ## Environmental friendliness
 
-The mathematical foundations of blockchains come from [number theory](), and the computational complexity of certain objects, such as the [integers]() and [elliptic curves](). These objects can get so complicated that certain problems on them are possible to solve but require more computational resources than what can be found in, say, the observable universe. This aspect is used as shelter against attackers.
+The mathematical foundations of blockchains come from [number theory](), and the computational complexity of certain objects, such as the [integers]() and [elliptic curves](). (Find out more about elliptic curves [here](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/) and [here](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627))These objects can get so complicated that certain problems on them are possible to solve but require more computational resources than what can be found in, say, the observable universe. This aspect is used as shelter against attackers.
 
 On the other side, we can also reach consensus based on them, but it comes at a price: lots of (feasible) computation.
 
