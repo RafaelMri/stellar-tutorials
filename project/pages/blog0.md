@@ -36,28 +36,38 @@ Before you say the first point is not important, consider 2 examples. A sequence
 
 __Reaching consensus__ is one of the hardest problems cryptocurrencies face.
 
-The key issue with consensus is __trust__. It's hard to reach consensus with untrusted parties. What if Alice tells me to meet her at place X, but she goes to place Y? Of course, if Alice is my friend, I definitely trust her, but when it comes to the economy, with all sort of parties involved, it's impossible to trust everyone all the time.
+The key issue with consensus is __trust__. It's hard to reach consensus with untrusted parties. What if Alice tells me to meet her at place X, but she goes to place Y? Of course, if Alice is my friend, I definitely trust her, but when it comes to the economy, with all sort of parties involved, it's unreasonable to trust everyone.
 
-<!-- Now, the key issue with trust is __power__. It's easy to trust someone if we know there's a looming entity behind, much more powerful than both of us, who can keep us honest.
- -->
+Now, the key issue with trust is __power__. It's easy to trust someone if we know there's some entity looming behind, more powerful than both of us, who can keep us honest.
+
+__Currency__ is a form of __trust__ that is easy to quantify and divide, which what we want in order to do economic transactions. Without currency, transactions would be cumbersome. So, everyone wants to use currency because it's convenient. How can everyone agree on the _value_ of a given currency, though?
+
+Say, If I were to mint some fiat currency, it would have __zero value__, because people would have __zero trust__ in it. Why? Because I have __zero power__. Sovereign states do have power, which is why people (usually) trust currencies minted by them. The less powerful a state, the less value any currenty minted by it would have, and, in the limiting case, a [failed state](https://en.wikipedia.org/wiki/Failed_state) may end up with a currency that has zero value.
+
+<!-- but we both agree to trust this hypothetical "looming powerful entity" -->
+
 <!-- This is what happens at the level of individuals and businesses. -->
 
 <!-- And it's hard to trust someone who knows will go unpunished regardless of what she does. -->
 
-
 <!-- The "trust problem" may be solved at the individual level, but the "solution" is kicking it to the next level in the hierarchy. Trust is an unsolved problem for sovereign states. Among parties with roughly equal power, without a "superior power" above, it's, by definition, impossible to __force__ anyone to do anything.
 
 Which is why international relations can get complicated. The __United Nations__ (and the League of Nations before them) is a mechanism to somehow alleviate the problem of trust, but it's not a mathematical solution, and it could in theory fail at any given time (the League of Nations certainly did).
+ -->
 
+## What is a blockchain?
+
+A __blockchain__ is a mathematical object whose main goal is to provide __trust__.
+
+To do this, a __blockchain__ must reach consensus through some __consensus algorithm__.
 
 So, currency is a form of trust, and blockchains are a mathematical way of providing trust. Can there exist currencies whose trust doesn't come from the power of a sovereign state, but from the power of mathematics?
 
 The answer is yes.
- -->
-
-Bitcoin reaches consensus through a mechanism called [__proof of work__](https://en.wikipedia.org/wiki/Proof-of-work_system).
 
 ## A solution: proof of work
+
+The Bitcoin blockchain reaches consensus through a mechanism called [__proof of work__](https://en.wikipedia.org/wiki/Proof-of-work_system).
 
 The first application of __proof of work__ was fighting spam. Each time Alice sent an email, the server required her computer to compute __hashes__; say, half a second worth of hashes. As a first approximation, we can see a __hash__ as the value of a function at some point. For example, the value of the __square function__ at the point 4 is 16, because 16 is the square of 4. A hash arises in the same way, but by using a function with special properties. That function is called a __hash function__.
 
@@ -96,7 +106,7 @@ In a blockchain, a __transaction__ is a movement of currency between two parties
 Blockchains, however, are special because they're __distributed__ ledgers of transactions.
 
 
-A __blockchain__ is a mathematical object with one goal: __reach consensus__. Consensus can be reached on a number of things, from the color people think the sun is, to the dining place for a groups of friends. Abstractly, consensus is an agreement on the value of a function given a a particular input.
+To do this, __blockchains__ must reach consensus through some __consensus algorithm__. Consensus can be reached on a number of things, from the color people think the sun is, to the dining place for a groups of friends. Abstractly, consensus is an agreement on the value of a function given a a particular input.
 
 
 Regardless of what the consensus is _about_, consensus needs one key thing: __trust__. 
