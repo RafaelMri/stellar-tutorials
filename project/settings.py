@@ -14,7 +14,7 @@ PROJECT_ROOT = parent_dir(APP_DIR)
 FREEZER_DESTINATION = PROJECT_ROOT  # In order to deploy to Github pages, you must build the static files to the project root
 
 # FREEZER_BASE_URL = "http://localhost/{}".format(REPO_NAME)  # This is a repo page (not a user page), so we must set the BASE_URL to the correct url as per GH Pages' standards
-FREEZER_BASE_URL = "https://github.com/etale-cohomology/{}".format(REPO_NAME)  # This is a repo page (not a user page), so we must set the BASE_URL to the correct url as per GH Pages' standards
+FREEZER_BASE_URL = "https://github.com/{}".format(REPO_NAME)  # This is a repo page (not a user page), so we must set the BASE_URL to the correct url as per GH Pages' standards
 
 FREEZER_REMOVE_EXTRA_FILES = False  # IMPORTANT: If this is True, all app files will be deleted when you run the freezer
 FLATPAGES_MARKDOWN_EXTENSIONS = ['codehilite']
