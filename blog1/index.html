@@ -2,10 +2,17 @@
 
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Understanding the Stellar Network">
+    <meta name="author" content="Diego Alonso">
     <title>Understanding the Stellar Network</title>
+
     <link rel="stylesheet" href="/stellar-tutorials/static/css/style.css">
+    <!-- <link rel="stylesheet" href="/stellar-tutorials/static/css/bootstrap.css"> -->
     
 
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   </head>
 
   <body class="box">
@@ -126,12 +133,12 @@ print(&#39;powerset: &#39;, powerset_friends)
 
 <p>The <strong>quorum function</strong> says which particular family of quorum slices <code>Alice</code> chose. The quorum function doesn't work only on <code>Alice</code>, though, but on every node!</p>
 <p>And that's all the quorum function is: <em>the object that contains all the information about which particular "happy family" each node chose</em>.</p>
-<p>If we call the quorum function ( \textbf{Q} ), then we can refer to <code>Alice</code>'s "happy family" as ( \textbf{Q}(\text{Alice}) ).
-More formally, ( \textbf{Q}(\text{Alice}) ) is <em>the value of the quorum function evaluated at <code>Alice</code></em>.</p>
+<p>If we call the quorum function \( \textbf{Q} \), then we can refer to <code>Alice</code>'s "happy family" as \( \textbf{Q}(\text{Alice}) \).
+More formally, \( \textbf{Q}(\text{Alice}) \) is <em>the value of the quorum function evaluated at <code>Alice</code></em>.</p>
 <h2>Federated Byzantine agreement systems (FBAS)</h2>
 <p>A <strong>federated Byzantine agreement system</strong> (FBAS, for short) is simply a network of nodes together which a particular quorum function.</p>
 <p>The <a href="https://www.stellar.org/papers/stellar-consensus-protocol.pdf">SCP white paper</a> puts it like this:</p>
-<p><strong>Definition (FBAS)</strong>. A federated Byzantine agreement system, or <strong>FBAS</strong>, is a pair ( (\textbf{V}, \textbf{Q}) ) comprising a set of nodes ( \textbf{V} ) and a quorum function ( \textbf{Q} : \textbf{V} \longrightarrow 2^{2^\textbf{V}} \backslash {\emptyset} ) specifying one or more quorum slices for each node, where a node belongs to all of its own quorum slices.</p>
+<p><strong>Definition (FBAS)</strong>. A federated Byzantine agreement system, or <strong>FBAS</strong>, is a pair \( (\textbf{V}, \textbf{Q}) \) comprising a set of nodes \( \textbf{V} \) and a quorum function \( \textbf{Q} : \textbf{V} \longrightarrow 2^{2^\textbf{V}} \backslash \{\emptyset\} \) specifying one or more quorum slices for each node, where a node belongs to all of its own quorum slices.</p>
 <p>In set-theoretic terms, the "happy family" is <strong>an element of the powerset of the powerset</strong>.</p>
 <p>And now we're ready to define the <strong>quorum function</strong>. The quorum function is simply an assignment of nodes to quorum slices.</p>
 <p>The <strong>quorum function</strong> says each node must have a family of trusted nodes.</p>
@@ -220,6 +227,5 @@ But that's not the end of our woes.
 
   </body>
 
-<script src="/stellar-tutorials/static/js/script.js"></script>
-
+<!-- <script src="/stellar-tutorials/static/js/bootstrap.min.js"></script> -->
 </html>

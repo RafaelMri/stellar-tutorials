@@ -2,10 +2,17 @@
 
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Understanding the Stellar Network">
+    <meta name="author" content="Diego Alonso">
     <title>{% block page_title %}Understanding the Stellar Network{% endblock %}</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}"> -->
     {% block css %}{% endblock %}
 
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   </head>
 
   <body class="box">
@@ -26,6 +33,5 @@
 
   </body>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
+<!-- <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script> -->
 </html>

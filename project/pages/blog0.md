@@ -148,7 +148,7 @@ The two largest cryptocurrencies, by market capitalization (as of Jan 2017), are
 
 <!-- ## What is Stellar -->
 
-Stellar is a decentralized financial platform that reaches consensus in a computationally cheap way. This grants the network a level of nimbleness that is mathematically impossible for other similar systems.
+Stellar is a decentralized financial platform that reaches consensus in a computationally cheap way. This grants the network a level of nimbleness that is mathematically difficult for other similar systems.
 
 <!-- ## What is the Stellar Consensus Protocol
 

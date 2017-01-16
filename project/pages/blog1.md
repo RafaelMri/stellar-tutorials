@@ -127,8 +127,8 @@ The __quorum function__ says which particular family of quorum slices `Alice` ch
 
 And that's all the quorum function is: _the object that contains all the information about which particular "happy family" each node chose_.
 
-If we call the quorum function \( \textbf{Q} \), then we can refer to `Alice`'s "happy family" as \( \textbf{Q}(\text{Alice}) \).
-More formally, \( \textbf{Q}(\text{Alice}) \) is _the value of the quorum function evaluated at `Alice`_.
+If we call the quorum function \\( \textbf{Q} \\), then we can refer to `Alice`'s "happy family" as \\( \textbf{Q}(\text{Alice}) \\).
+More formally, \\( \textbf{Q}(\text{Alice}) \\) is _the value of the quorum function evaluated at `Alice`_.
 
 ## Federated Byzantine agreement systems (FBAS)
 
@@ -136,7 +136,7 @@ A __federated Byzantine agreement system__ (FBAS, for short) is simply a network
 
 The [SCP white paper](https://www.stellar.org/papers/stellar-consensus-protocol.pdf) puts it like this:
 
-__Definition (FBAS)__. A federated Byzantine agreement system, or __FBAS__, is a pair \( (\textbf{V}, \textbf{Q}) \) comprising a set of nodes \( \textbf{V} \) and a quorum function \( \textbf{Q} : \textbf{V} \longrightarrow 2^{2^\textbf{V}} \backslash \{\emptyset\} \) specifying one or more quorum slices for each node, where a node belongs to all of its own quorum slices.
+__Definition (FBAS)__. A federated Byzantine agreement system, or __FBAS__, is a pair \\( (\textbf{V}, \textbf{Q}) \\) comprising a set of nodes \\( \textbf{V} \\) and a quorum function \\( \textbf{Q} : \textbf{V} \longrightarrow 2^{2^\textbf{V}} \backslash \\{\emptyset\\} \\) specifying one or more quorum slices for each node, where a node belongs to all of its own quorum slices.
 
 
 In set-theoretic terms, the "happy family" is __an element of the powerset of the powerset__.
