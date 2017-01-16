@@ -6,10 +6,10 @@
     <meta name="author" content="Diego Alonso">
     <title>{% block page_title %}Understanding the Stellar Network{% endblock %}</title>
 
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block css %}{% endblock %}
-
-    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   </head>
 
   <body class="box">
@@ -29,5 +29,7 @@
     </div><!-- end container -->
 
   </body>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </html>
