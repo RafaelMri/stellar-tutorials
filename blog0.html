@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Stellar Tutorials</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/clean-blog.css" rel="stylesheet">
+    <!-- <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="index.html">Home</a>
+          </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/etale-cohomology/stellar-tutorials">Source</a></li>
+                <li><a href="https://stellar.org">stellar.org</a></li>
+              </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header" style="background-image: url('img/bg1.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Stellar for (blockchain) newbies</h1>
+              <!-- <h2 class="subheading">Problems look mighty small from 150 miles up</h2> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+    <div class="container">
+      <div class="content" role="main">
+
+
+        
+<!-- <h1>Stellar for (blockchain) newbies</h1>
+<p>2013-07-15 12:00:00</p> -->
+<p><em>This is part 1 in a tutorial series on <a href="https://www.stellar.org/">Stellar</a>. Throughout the series we'll go over the theoretical ideas underpinning Stellar, and we'll learn to automate our interactions with the network using <a href="https://www.python.org/">Python</a>, through the Horizon REST API.</em></p>
+<p>Stellar is a decentralized, federated financial platform with a native asset, the <strong>lumen</strong>. Why is Stellar is decentralized? Why is it federated? What is a lumen? We'll go through this step by step.</p>
+<p>The <strong>lumen</strong>, like bitcoin, is a <a href="https://en.wikipedia.org/wiki/Cryptocurrency">cryptocurrency</a>. A cryptocurrency is a <a href="https://en.wikipedia.org/wiki/Currency">currency</a> whose power/value stems not from the authority of a sovereign state, but from the principles of <a href="https://en.wikipedia.org/wiki/Mathematics">mathematics</a> (more precisely, <a href="https://en.wikipedia.org/wiki/Number_theory">number theory</a>).</p>
+<p><strong>Blockchains</strong> are at the heart of cryptocurrencies. <strong>Consensus</strong> is at the heart of blockchains.</p>
+<p>In one sentence, a <strong>blockchain</strong> is a <strong>distributed ledger</strong>.</p>
+<p>A <strong>ledger</strong> is just a sequence of transactions. The ledger keeps a record of every transaction ever made, and everyone keeps a copy of that ledger. <strong>Consensus</strong> is what makes the <em>"distributed"</em> part work. Consensus on what, though? In Stellar's case, we must reach consensus on the <strong>state of the Stellar network</strong>. What is the Stellar network? What is its "state"? More on this later.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Hauptbuch_Hochstetter_vor_1828.jpg" alt="Ledger" style="width:100%; height:100%;"><br />
+<em>A physical ledger from 1828. Wikipedia article on <a href="https://en.wikipedia.org/wiki/Ledger">ledgers</a>.</em>  </p>
+<p>Stellar reaches consensus by turning <strong>local consensus</strong> into <strong>global consensus</strong>. Local consensus is called a <strong>quorum slice</strong>. Global consensus is called <strong>quorum</strong>. Global consensus arises when there's enough local consensus in the network. Or, to use the new language: <strong>quorum</strong> arises when there's enough <strong>quorum slices</strong> in the network. The tricky part is to define <strong>enough</strong>.</p>
+<p>The punchline in Stellar's consensus mechanism is: <strong>global consensus doesn't need everyone to agree with everyone</strong>. It's enough for everyone to simply <strong>agree with their "neighbors"</strong>, and, by having everyone <strong>agreeing with a small neighborhood around them</strong>, global agreement/consensus magically arises. Well, not magically, but mathematically.</p>
+<p>The formal properties of Stellar's consensus algorithm allow 4 important things:</p>
+<ol>
+<li>To reach consensus <strong>fast</strong> and <strong>cheaply</strong>: within a few seconds and spending little energy</li>
+<li>To let <strong>anyone join</strong> the consensus process: no one has all the decision-making power</li>
+<li>To let everyone <strong>decide who to trust</strong>: if you want to be trusted, you better play clean</li>
+<li>To be <strong>safe</strong>: even if bad actors join the network, the network can still arrive at the "right" consensus</li>
+</ol>
+<p>Before you say the first point is not important, consider 2 examples. A sequence of transactions that would cost 150 million dollars in fees over the traditional financial system only costs <strong>20 cents</strong> over the Stellar network. The Bitcoin network has, as of January 2017, 2 <a href="https://en.wikipedia.org/wiki/Exa-">exahashes</a> of processing power, which consumes as much energy as all of Ireland, and its network still takes ~30 minutes to process a transaction.</p>
+<h2>A hard problem: consensus</h2>
+<p><strong>Reaching consensus</strong> is one of the hardest problems cryptocurrencies face.</p>
+<p>The key issue with consensus is <strong>trust</strong>. It's hard to reach consensus with untrusted parties. What if Alice tells me to meet her at place X, but she goes to place Y? Of course, if Alice is my friend, I definitely trust her, but when it comes to the economy, with all sort of parties involved, it's unreasonable to trust everyone.</p>
+<p>Now, the key issue with trust is <strong>power</strong>. It's easy to trust someone if we know there's some entity looming behind, more powerful than both of us, who can keep us honest.</p>
+<p><strong>Currency</strong> is a form of <strong>trust</strong> that is easy to quantify and divide, which what we want in order to do economic transactions. Without currency, transactions would be cumbersome. So, everyone wants to use currency because it's convenient. How can everyone agree on the <em>value</em> of a given currency, though?</p>
+<p>Say, If I were to mint some fiat currency, it would have <strong>zero value</strong>, because people would have <strong>zero trust</strong> in it. Why? Because I have <strong>zero power</strong>. Sovereign states do have power, which is why people (usually) trust currencies minted by them. The less powerful a state, the less value any currenty minted by it would have, and, in the limiting case, a <a href="https://en.wikipedia.org/wiki/Failed_state">failed state</a> may end up with a currency that has zero value.</p>
+<!-- but we both agree to trust this hypothetical "looming powerful entity" -->
+
+<!-- This is what happens at the level of individuals and businesses. -->
+
+<!-- And it's hard to trust someone who knows will go unpunished regardless of what she does. -->
+
+<!-- The "trust problem" may be solved at the individual level, but the "solution" is kicking it to the next level in the hierarchy. Trust is an unsolved problem for sovereign states. Among parties with roughly equal power, without a "superior power" above, it's, by definition, impossible to __force__ anyone to do anything.
+
+Which is why international relations can get complicated. The __United Nations__ (and the League of Nations before them) is a mechanism to somehow alleviate the problem of trust, but it's not a mathematical solution, and it could in theory fail at any given time (the League of Nations certainly did).
+-->
+
+<h2>What is a blockchain?</h2>
+<p>A <strong>blockchain</strong> is a mathematical object whose main goal is to provide <strong>trust</strong>.</p>
+<p>To do this, a <strong>blockchain</strong> must reach consensus through some <strong>consensus algorithm</strong>.</p>
+<p>So, currency is a form of trust, and blockchains are a mathematical way of providing trust. Can there exist currencies whose trust doesn't come from the power of a sovereign state, but from the power of mathematics?</p>
+<p>The answer is yes.</p>
+<h2>A solution: proof of work</h2>
+<p>The Bitcoin blockchain reaches consensus through a mechanism called <a href="https://en.wikipedia.org/wiki/Proof-of-work_system"><strong>proof of work</strong></a>.</p>
+<p>The first application of <strong>proof of work</strong> was fighting spam. Each time Alice sent an email, the server required her computer to compute <strong>hashes</strong>; say, half a second worth of hashes. As a first approximation, we can see a <strong>hash</strong> as the value of a function at some point. For example, the value of the <strong>square function</strong> at the point 4 is 16, because 16 is the square of 4. A hash arises in the same way, but by using a function with special properties. That function is called a <strong>hash function</strong>.</p>
+<p>To get an idea of what this looks like, the hash of <code>123</code> under a common hash function is <code>75263518707598184987916378021939673586055614731957507592904438851787542395619</code>.</p>
+<p>So, <strong>proof of work</strong> adds a small overhead to each email sent (half a second). This is small enough to go unnoticed by Alice, but a game-changer for spammers, who now must spend half a million seconds to send one million emails. How can the server verify that Alice has actually done all that work, though? The details are tricky:</p>
+<p>The server arbitrarily chooses a number, say <code>1,000,000,000,000</code>. In Bitcoin this is called the <strong>difficulty target</strong>. The lower its value, the harder it is to compute. To arrive at this number, Alice must hash her email repeatedly, until she (by acccident) arrives at a number smaller than <code>1,000,000,000,000</code>, say <code>999,999,999,999</code>. Now, to verify Alice has actually ran tons and tons of hashes to arrive at <code>999,999,999,999</code> (or smaller), the server simply looks at Alice's hash and compares it to the one it has. If they're identical, the server <em>knows</em> Alice did do all the work. This works because (good) hash functions are expected (but maybe not proved!) to behave randomly, it's possible to calculate how long she has to keep on computing until she finds the desired number by accident.</p>
+<!-- Say Bob wants to prove that he can do a really hard math question. Alice doesn’t know what the answer is, but she knows that the answer, when put through a SHA-256 hash, is 73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049. Bob completes the question and hashes his answer. Alice can then look at Bob’s hash and compares it to the hash she has, and if they are identical, then she knows Bob found the right answer. Alice still does not know the answer or how Bob got that result – but she knows that Bob arrived at the right answer. Bitcoin uses this type of a system for each block found – and each block relies on including the previously found block in the generated hash. This means as soon as a block is found and propagated through the network, all of the previous ‘work’ performed by miners is now irrelevant.
+-->
+
+<p><a href="https://en.wikipedia.org/wiki/Satoshi_Nakamoto">Satoshi</a> used <strong>proof of work</strong> as a way to establish <strong>consensus</strong>. It's not at all obvious how one would do this, which is probably why it took so long for people to figure it out.</p>
+<p>But the key to this relies in number-theoretic magic. Proof of work can only exist if there are functions that <strong>hard</strong> in "one direction", but <strong>easy</strong> in "another" one, in a precise technical sense.</p>
+<p>An example of such objects are <strong>hash functions</strong>, which are easy to evaluate but near impossible to reverse. In our previous example, it's easy to arrive at <code>75263518707598184987916378021939673586055614731957507592904438851787542395619</code> if we're given <code>123</code>, but it's near to impossible to <strong>calculate</strong> <code>123</code> if we only have <code>75263518707598184987916378021939673586055614731957507592904438851787542395619</code>.</p>
+<p>This is <em>not</em> because the hash is a large number, but because of the number-theoretic properties of this particular hash function.</p>
+<!-- ## Hash functions
+
+There's only 1 formal requirement for a hash function: it must be __deterministic__. Useful hash functions must satisfy many other properties, 
+
+
+Hash functions are designed to be near impossible to understand by analytic methods and simple formulas. They're designed so that the cheapest and easiest way is to __brute force__ the solution.
+
+
+Actually, a cryptographic hash function can be used as an expensive pseudorandom number generator, and a pseudorandom number generator can be used as a weak, non-cryptographic hash function.
+-->
+
+<!-- ## What is a blockchain
+
+In a blockchain, a __transaction__ is a movement of currency between two parties. So, a blockchain is a data structure that keeps data on every piece of currency that moves throughout the network. A human would represent such a data structure in a long piece of paper, writing every single transaction by hand, like in the old accounting ledgers.
+
+Blockchains, however, are special because they're __distributed__ ledgers of transactions.
+
+
+To do this, __blockchains__ must reach consensus through some __consensus algorithm__. Consensus can be reached on a number of things, from the color people think the sun is, to the dining place for a groups of friends. Abstractly, consensus is an agreement on the value of a function given a a particular input.
+
+
+Regardless of what the consensus is _about_, consensus needs one key thing: __trust__. 
+
+
+In the future, I know it'll be hard to make plans with her
+
+
+As mathematical objects, blockchains must have their properties __formally proved__. Afterwards, these properties are known to be _infallible_, forever, in the precise same way the derivative of sine is cosine, forever: their correctness becomes a __theorem__ of mathematics.
+
+In general, we can't prove all things about a blockchain that we'd like to.
+
+
+That is, in the Platonic world where they live, 
+
+
+But perfect Platonic objects must be implemented in the physical, and in the implementation many things can go wrong.
+-->
+
+<!-- ## What is a cryptocurrency
+
+Money is a form of __trust__. 
+
+[...]
+
+The economy is build upon trust. Without trust, business is impossible. 
+
+
+Trust is built on mathematics. How, specifically? By __computation__.
+-->
+
+<h2>Environmental friendliness</h2>
+<p>The mathematical foundations of blockchains come from <a href="">number theory</a>, and the computational complexity of certain objects, such as the <a href="">integers</a> and <a href="">elliptic curves</a>. (Find out more about elliptic curves <a href="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/">here</a> and <a href="https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627">here</a>)These objects can get so complicated that certain problems on them are possible to solve but require more computational resources than what can be found in, say, the observable universe. This aspect is used as shelter against attackers.</p>
+<p>On the other side, we can also reach consensus based on them, but it comes at a price: lots of (feasible) computation.</p>
+<p>The two largest cryptocurrencies, by market capitalization (as of Jan 2017), are Bitcoin (USD 16 billion) and Ethereum (USD 1 billion). Both use different mechanics to reach consensus. They have different formal properties, making them, in particular, very expensive to compute. (Bitcoin, for instance, is starting to consume as much energy as <a href="http://motherboard.vice.com/read/bitcoin-could-consume-as-much-electricity-as-denmark-by-2020">whole countries</a>). At these capitalizations, blockchains are still very small in the global economy, and scaling up some of these algorithms to the planetary level is a serious concern.</p>
+<!-- ## What is Stellar -->
+
+<p>Stellar is a decentralized financial platform that reaches consensus in a computationally cheap way. This grants the network a level of nimbleness that is mathematically difficult for other similar systems.</p>
+<!-- ## What is the Stellar Consensus Protocol
+
+SCP is free of __blocked states__  
+
+1. __Decentralized control__
+2. __Low latency__
+3. __Flexible trust__
+4. __Asymptotic security__
+-->
+
+<!-- ## Transaction fees -->
+
+<p>Every transaction has a .00001 XLM fee, as a deterrent to spammers, called the <strong>base fee</strong>. These funds are fed back to the Stellar network in the process of inflation. For more information <a href="https://www.stellar.org/developers/learn/concepts/inflation.html">go here</a>.</p>
+<h2>A first dive into the Stellar network</h2>
+<p>But enough talk of ledgers, transactions, operations, and effects. What does the <strong>state</strong> of the network actually <em>look like</em>? It's easy to take a peek using the REST API, which we'll access through Python.</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>  <span class="c1"># Install by running `pip install requests` on the console</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+
+<span class="k">class</span> <span class="nc">Horizon</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;A thin Python wrapper around the Horizon REST API!&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">horizon_url</span><span class="o">=</span><span class="s1">&#39;https://horizon.stellar.org&#39;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">=</span> <span class="n">horizon_url</span>
+
+  <span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/metrics&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">ledgers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;desc&#39;</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/ledgers?limit=&#39;</span> <span class="o">+</span> <span class="n">limit</span> <span class="o">+</span> <span class="s1">&#39;&amp;order=&#39;</span> <span class="o">+</span> <span class="n">order</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">ledgers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/ledgers?limit=10&amp;order=desc&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">trades</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/trades&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">payments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/payments&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/transactions&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">operations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/operations&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/effects&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">offers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_url</span> <span class="o">+</span> <span class="s1">&#39;/accounts/&#39;</span> <span class="o">+</span> <span class="n">account_id</span> <span class="o">+</span> <span class="s1">&#39;/offers&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># This is an account on the real network that I created for testing purposes</span>
+<span class="n">account_id</span> <span class="o">=</span> <span class="s1">&#39;GAOXVBKHGKH3UNAK4EIG3XVAWMA4B7Y3LF42EMIKJINVMLTNXYGHUQWM&#39;</span>
+
+<span class="n">horizon</span> <span class="o">=</span> <span class="n">Horizon</span><span class="p">()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">metrics</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">ledgers</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">trades</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">payments</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">transactions</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">operations</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">effects</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">horizon</span><span class="o">.</span><span class="n">offers</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+
+
+<p>What does the output look like? It's a mess, isn't it? But at least it's human-readable, </p>
+<p>In time we'll turn this innocent-looking snippet into a powerful application that can do all sorts of useful things, from making simple payments to doing high-frequency trading. But before that, we'll go deeper into Stellar itself. The key idea is this: <strong>federated Byzantine agreements</strong>.</p>
+<h2>Getting started</h2>
+<p>Here's 3 suggestions to start getting familiar with Stellar.</p>
+<ol>
+<li>Read the official explanations: <a href="https://medium.com/a-stellar-journey/on-worldwide-consensus-359e9eb3e949">example 1</a> <a href="https://www.stellar.org/stories/adventures-in-galactic-consensus-chapter-1/">example 2</a> <a href="https://www.stellar.org/blog/stellar-consensus-protocol-proof-code/">example 3</a></li>
+<li>Create an account in the <a href="https://www.stellar.org/developers/guides/concepts/test-net.html"><strong>testnet</strong></a>, which you can fund freely with (fake) lumens.</li>
+<li>Take a peek at the state of the Stellar ledgers, through the Horizon API</li>
+</ol>
+
+
+
+      </div>
+    </div><!-- end container -->
+
+    </article>
+
+    <hr>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/clean-blog.min.js"></script>
+    <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  </body>
+
+</html>

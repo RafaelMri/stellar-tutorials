@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Stellar Tutorials</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/clean-blog.css" rel="stylesheet">
+    <!-- <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="index.html">Home</a>
+          </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/etale-cohomology/stellar-tutorials">Source</a></li>
+                <li><a href="https://stellar.org">stellar.org</a></li>
+              </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header" style="background-image: url('img/bg1.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Quorum slices and the quorum function</h1>
+              <!-- <h2 class="subheading">Problems look mighty small from 150 miles up</h2> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+    <div class="container">
+      <div class="content" role="main">
+
+
+        
+<!-- <h1>Quorum slices and the quorum function</h1>
+<p>2013-07-15 12:00:00</p> -->
+<h1>The Stellar protocol: quorum slices and the quorum function</h1>
+<p><em>In this post, we explain how Stellar reaches network-wide consensus using quorum slices. We go over 2 key ideas, quorum slices and the quorum function, which are not cryptographic in nature but set-theoretic, using <a href="https://www.python.org/">Python</a>.</em></p>
+<p>A key technical innovation of the Stellar protocol is the introduction of <strong>federated Byzantine agreements</strong>. These allow 4 cool things:</p>
+<ol>
+<li>To reach consensus <strong>fast</strong> and <strong>cheaply</strong>: within a few seconds and spending little energy</li>
+<li>To let <strong>anyone join</strong> the consensus process: no one has all the decision-making power</li>
+<li>To let everyone <strong>decide who to trust</strong>: if you want to be trusted, you better play clean</li>
+<li>To be <strong>safe</strong>: even if bad actors join the network, the network can still reach the "right" consensus</li>
+</ol>
+<p>All of this rests on 2 key ideas: <strong>quorum slices</strong> and the <strong>quorum function</strong>. The good news is that these depend mostly on <a href="https://en.wikipedia.org/wiki/Set_theory"><strong>set theory</strong></a>!</p>
+<!-- ## I don't like reading, give me the example already!
+
+[APP]
+
+This app provides a playground to experiment with the idea of nodes, quorum slices, and quorum. To see what all of this means, read the rest of the article!
+ -->
+
+<h2>A network of nodes</h2>
+<p><strong>Quorum slices</strong> and the <strong>quorum function</strong> make no sense in isolation; they need <em>context</em>. This context is the <strong>network of nodes</strong>.</p>
+<p>Let's say we have 3 people: <code>Alice</code>, <code>Bob</code>, and <code>Charlie</code>. They're trying to decide what movie to watch. They will be our <strong>network of nodes</strong>. Abstractly, we can stuff them all into a set called <code>friends</code>.</p>
+<div class="codehilite"><pre><span></span>friends  = {&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charlie&#39;}  # This is a set!
+print(friends)
+</pre></div>
+
+
+<p>In mathematics, every <a href="https://en.wikipedia.org/wiki/Set_(mathematics)">set</a> has associated to it another set, called its <a href="https://en.wikipedia.org/wiki/Power_set"><strong>powerset</strong></a>. In Python, we can build powersets like this:</p>
+<div class="codehilite"><pre><span></span>def powerset(s):
+    &quot;&quot;&quot;This function builds powersets. It takes a set `s` and returns the powerset of `s`.
+    The powerset contains all subsets!&quot;&quot;&quot;
+
+    n = len(s)  # Size of our set
+    s = list(s)  # We turn our set into a list to allow indexing
+
+    subsets = []  # Our powerset will actually be a Python list, for simplicity
+    for i in range(2**n):  # We loop through each of the 2**n subsets of our set
+        subset = {s[j] for j in range(n) if (i &amp; (2**j))}
+        subsets.append(subset)
+
+    # We sort the powerset (actually a Python list) by length!
+    # This is simply to aid visualization.
+    return sorted(subsets, key=lambda x: len(x))
+
+
+friends  = {&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charlie&#39;}  # This is a set!
+powerset_friends = powerset(friends)
+print(&#39;set: &#39;, friends)
+print(&#39;powerset: &#39;, powerset_friends)
+</pre></div>
+
+
+<p>You can run this snippet here:</p>
+<iframe src="https://trinket.io/embed/python3/e9154c20ae?toggleCode=true&runOption=run&start=result" width="100%" height="180" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+
+<p>Notice the set <code>friends</code> has 3 elements, and its powerset has 8 elements. This is no coincidence. In general, a set with <code>n</code> elements yields a powerset with <code>2**n</code> elements. In Python, <code>set()</code> stands for the set containing no elements at all, called the <strong>empty set</strong>. The powerset of <code>friends</code> contains every possible <a href="https://en.wikipedia.org/wiki/Combination">combination</a> of <code>friends</code>, including the "empty" combination!</p>
+<h2>A quorum slice: just a set of nodes... with a twist</h2>
+<p>Now that we have a set and and its powerset, we can start building <strong>quorum slices</strong>.</p>
+<p>Each person in our example is a <strong>node</strong>. The set of all nodes is the <strong>network</strong>. A <strong>quorum slice</strong> is a subset of the network. A quorum slice doesn't make sense by itself; it needs to be associated to a node. So we'll be talking about "a quorum slice for <code>Bob</code>", or "a quorum slice for <code>Alice</code>".</p>
+<p>Neglecting details, a quorum slice for <code>Alice</code> is just a <strong>set of nodes</strong> containing <code>Alice</code>.</p>
+<p>Here's an example of a possible quorum slice for <code>Alice</code>:</p>
+<ol>
+<li><strong>NODE</strong>: <code>Alice</code></li>
+<li><strong>POSSIBLE QUORUM SLICE FOR <code>Alice</code></strong>: <code>{Alice, Charlie}</code></li>
+</ol>
+<p>Here's an example of an <em>impossible</em> quorum slice for <code>Alice</code>:</p>
+<ol>
+<li><strong>NODE</strong>: <code>Alice</code></li>
+<li><strong>IMPOSSIBLE QUORUM SLICE FOR <code>Alice</code></strong>: <code>{Charlie, Bob}</code></li>
+</ol>
+<p>It's impossible because it doesn't contain <code>Alice</code>!</p>
+<p>Notice a quorum slice for <code>Alice</code> is just some <strong>element of the powerset</strong>. Of course, not every element of the upowerset <em>needs</em> to be a quorum slice for <code>Alice</code>. Also, some elements of the powerset <em>can't</em> be quorum slices for <code>Alice</code>.</p>
+<p>And here comes the <em>twist</em>. If <code>Alice</code> wants some set of nodes to be her quorum slice, that set of nodes must satisfy an additional property: <strong>it must be trusted by Alice</strong>. Put another way: <em>Alice must trust her quorum slice</em>.</p>
+<p><strong>Trust</strong> is a very strong word: a set of nodes that <code>Alice</code> trusts can influence her decisions!</p>
+<p>One of the key properties of federated Byzantine agreements is that <em>every node decides which nodes it trusts</em>. Or, to use our new language: <strong>every node chooses its quorum slice</strong>.</p>
+<p>But that's not all. The last detail is: <code>Alice</code> isn't limited to a single quorum slice. <strong>She can choose as many quorum slices as she likes</strong>!</p>
+<p>I like to refer to all of <code>Alice</code>'s quorum slices as <code>Alice</code>'s "happy family".</p>
+<p><strong>Question</strong>. What is the largest possible quorum slice for <code>Alice</code>?<br />
+<strong>Answer</strong>. <code>{Bob, Charlie, Alice}</code>.  </p>
+<p><strong>Question</strong>. What is the smallest possible quorum slice for <code>Alice</code>?<br />
+<strong>Answer</strong>. <code>{Alice}</code>, meaning <code>Alice</code> trusts no one but herself.  </p>
+<p><strong>Question</strong>. What are <em>all</em> the possible quorum slices for <code>Alice</code>?<br />
+<strong>Answer</strong>. There's 4 possible quorum slices:  </p>
+<ol>
+<li><code>{Alice}</code></li>
+<li><code>{Bob, Alice}</code></li>
+<li><code>{Charlie, Alice}</code></li>
+<li><code>{Bob', Charlie, Alice}</code></li>
+</ol>
+<p><strong>Question</strong>. What is the largest possible "happy family" for <code>Alice</code>?<br />
+<strong>Answer</strong>. <code>{ {Alice}, {Bob, Alice}, {Charlie, Alice}, {Bob, Charlie, Alice} }</code>, which is every quorum slice possible.  </p>
+<p><strong>Question</strong>. What is the smallest possible "happy family" for <code>Alice</code>?<br />
+<strong>Answer</strong>. The smallest "happy family" for <code>Alice</code> has 1 quorum slice. There's 4 such "happy families":</p>
+<ol>
+<li><code>{ {Alice} }</code></li>
+<li><code>{ {Bob, Alice} }</code></li>
+<li><code>{ {Charlie, Alice} }</code></li>
+<li><code>{ {Bob', Charlie, Alice} }</code></li>
+</ol>
+<h2>The quorum function: each node has a family of quorum slices</h2>
+<p><code>Alice</code> can choose as many quorum slices as she likes. So, <code>Alice</code>'s "happy family" can have 1, 2, 3, or 4 members.</p>
+<!-- [APP. Alice's happy family] -->
+
+<p>The <strong>quorum function</strong> says which particular family of quorum slices <code>Alice</code> chose. The quorum function doesn't work only on <code>Alice</code>, though, but on every node!</p>
+<p>And that's all the quorum function is: <em>the object that contains all the information about which particular "happy family" each node chose</em>.</p>
+<p>If we call the quorum function \( \textbf{Q} \), then we can refer to <code>Alice</code>'s "happy family" as \( \textbf{Q}(\text{Alice}) \).
+More formally, \( \textbf{Q}(\text{Alice}) \) is <em>the value of the quorum function evaluated at <code>Alice</code></em>.</p>
+<h2>Federated Byzantine agreement systems (FBAS)</h2>
+<p>A <strong>federated Byzantine agreement system</strong> (FBAS, for short) is simply a network of nodes together which a particular quorum function.</p>
+<p>The <a href="https://www.stellar.org/papers/stellar-consensus-protocol.pdf">SCP white paper</a> puts it like this:</p>
+<p><strong>Definition (FBAS)</strong>. A federated Byzantine agreement system, or <strong>FBAS</strong>, is a pair \( (\textbf{V}, \textbf{Q}) \) comprising a set of nodes \( \textbf{V} \) and a quorum function \( \textbf{Q} : \textbf{V} \longrightarrow 2^{2^\textbf{V}} \backslash \{\emptyset\} \) specifying one or more quorum slices for each node, where a node belongs to all of its own quorum slices.</p>
+<p>In set-theoretic terms, the "happy family" is <strong>an element of the powerset of the powerset</strong>.</p>
+<p>And now we're ready to define the <strong>quorum function</strong>. The quorum function is simply an assignment of nodes to quorum slices.</p>
+<p>The <strong>quorum function</strong> says each node must have a family of trusted nodes.</p>
+<p>Of course, since every node chooses its own quorum slices (its "happy family")</p>
+<!-- Eg. if `A`
+
+[APP]
+ -->
+
+<p>But that's not the whole story! Each node isn't limited to just <em>one</em> such family; it can choose as many as it wants!</p>
+<p>Of course, a network of nodes can have many, many quorum functions. A particular quorum function simply corresponds to a particular assignment of quorum slices.</p>
+<!-- All of this talk of talk of sets, powersets, slices, etc., allows us to understand the definition in the SCP white paper: -->
+
+<h2>Can we watch the movie already?</h2>
+<p>Remember this whole nightmare started when the 3 friends decided to watch a movie.</p>
+<p>We've still got a bit of ground to cover before we're ready for that. After going over <strong>quorums</strong>, <strong>federated voting</strong>, and <strong>the ballot process</strong>, we'll finally be ready. Stay tuned for <strong>part 3</strong>.</p>
+<!-- ## Quorums
+
+Unlike quorum slices, quorums do make sense by themselves: a quorum is not associated to any node in particular. Rather, quorums are associated to a network after we choose a particular quorum function!
+
+Here's an example of a quorum slice in our network:
+
+1. __NODE__: `Alice`
+2. __QUORUM SLICE FOR `Alice`__: `Alice`, `Charlie`
+
+Here's an example of an _impossible_ quorum slice for `Alice`:
+
+1. __NODE__: `Alice`
+2. __QUORUM SLICE FOR `Alice`__: `Charlie, Bob`
+
+
+__Question__. Under this quorum function: 
+
+
+, what's the smallest quorum containing `Alice`?  
+__Answer__.
+
+## Quorum intersection: Don't leave the house without it!
+
+__Quorum__ doesn't _not_ mean network-wide consensus! Imagine this scenario:
+
+[...]
+
+Here, `A` and `B` have quorum, and `C` has quorum, but there's no __network-wide consensus__!
+
+This situation is so critical to federated Byzantine agreements that it gives rise to a name: __quorum intercetion__. In this particular example, our network does _not_ have __quorum intersection__, and so it can never agree on anything!
+
+If a network has agreed on something, then we know it must have quorum intersection. If, however, it has quorum intersection, then it may or may not agree on anything!
+
+__Quorum intersection__ is property has takes a bit of effort to visualize, because it involves _every single quorum in the network_. And each quorum in the network involves a bunch of quorum slices, which in turn involve a bunch of nodes.
+
+So let's start with the simplest case: no quorum at all.
+
+Then: 1 quorum.
+
+Then: 2 quorums.
+
+Then: 3 quorums.
+
+An _algorithm_ to determine whether a network has (or doesn't have) quorum intersection would be:
+
+1. Find all quorums the network.
+2. Construct a list of all __pairs__ of quorums.
+3. Find the intersection each pair in that list.
+4. If _each_ intersection is not empty, then your network has __quorum intersection__. Otherwise, it doesn't!
+
+Example in Python:
+
+```python
+```
+
+__Quorum intersection__ is needed for network-wide consensus because, without it, disjoint quorums can agree an different things! Disjoint quorums effectively function as two distinct federated Byzantine agreement systems, and each may follow its own path, unbeknown to the other.
+
+## Federated voting: vote, accept, ratify, confirm
+
+But we're not ready for consensus just yet. First we must go through a __federated voting__ process, which has 4 steps: vote, accept, ratify, confirm.
+
+## The ballot process
+
+But that's not the end of our woes. 
+
+ -->
+
+
+
+
+      </div>
+    </div><!-- end container -->
+
+    </article>
+
+    <hr>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/clean-blog.min.js"></script>
+    <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  </body>
+
+</html>
