@@ -87,6 +87,8 @@ But the key to this relies in number-theoretic magic. Proof of work can only exi
 
 An example of such objects are __hash functions__, which are easy to evaluate but near impossible to reverse. In our previous example, it's easy to arrive at `75263518707598184987916378021939673586055614731957507592904438851787542395619` if we're given `123`, but it's near to impossible to __calculate__ `123` if we only have `75263518707598184987916378021939673586055614731957507592904438851787542395619`.
 
+This is _not_ because the hash is a large number, but because of the number-theoretic properties of this particular hash function.
+
 <!-- ## Hash functions
 
 There's only 1 formal requirement for a hash function: it must be __deterministic__. Useful hash functions must satisfy many other properties, 

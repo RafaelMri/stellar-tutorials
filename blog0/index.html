@@ -80,6 +80,7 @@ Which is why international relations can get complicated. The __United Nations__
 <p><a href="https://en.wikipedia.org/wiki/Satoshi_Nakamoto">Satoshi</a> used <strong>proof of work</strong> as a way to establish <strong>consensus</strong>. It's not at all obvious how one would do this, which is probably why it took so long for people to figure it out.</p>
 <p>But the key to this relies in number-theoretic magic. Proof of work can only exist if there are functions that <strong>hard</strong> in "one direction", but <strong>easy</strong> in "another" one, in a precise technical sense.</p>
 <p>An example of such objects are <strong>hash functions</strong>, which are easy to evaluate but near impossible to reverse. In our previous example, it's easy to arrive at <code>75263518707598184987916378021939673586055614731957507592904438851787542395619</code> if we're given <code>123</code>, but it's near to impossible to <strong>calculate</strong> <code>123</code> if we only have <code>75263518707598184987916378021939673586055614731957507592904438851787542395619</code>.</p>
+<p>This is <em>not</em> because the hash is a large number, but because of the number-theoretic properties of this particular hash function.</p>
 <!-- ## Hash functions
 
 There's only 1 formal requirement for a hash function: it must be __deterministic__. Useful hash functions must satisfy many other properties, 
