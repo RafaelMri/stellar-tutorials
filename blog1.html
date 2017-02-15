@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='description' content=''>
+    <meta name='author' content=''>
 
     <title>Stellar Tutorials</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/clean-blog.css" rel="stylesheet">
-    <!-- <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <link href='css/bootstrap.min.css' rel='stylesheet'>
+    <link href='css/clean-blog.css' rel='stylesheet'>
+    <!-- <link href='vendor/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css'> -->
 
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -21,18 +21,18 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-          <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              Menu <i class="fa fa-bars"></i>
+    <nav class='navbar navbar-default navbar-custom navbar-fixed-top'>
+        <div class='container-fluid'>
+          <div class='navbar-header page-scroll'>
+            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'>
+              <span class='sr-only'>Toggle navigation</span>
+              Menu <i class='fa fa-bars'></i>
             </button>
-            <a class="navbar-brand" href="index.html">Home</a>
+            <a class='navbar-brand' href='index.html'>Home</a>
           </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-right">
+            <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+              <ul class='nav navbar-nav navbar-right'>
                 <li><a href='https://github.com/etale-cohomology/stellar-tutorials'>Source</a></li>
                 <li><a href='https://stellar.org'>stellar.org</a></li>
                 <li><a href='https://www.stellar.org/developers/'>Developers</a></li>
@@ -40,6 +40,7 @@
                 <li><a href='https://github.com/stellar'>Github</a></li>
                 <li><a href='https://stellarchain.io/'>StellarChain</a></li>
                 <li><a href='https://galactictalk.org/'>Forums</a></li>
+                <li><a href='https://mystellar.org/'>mystellar.org</a></li>
                 <li><a href='http://stellardesk.org'>Stellar Desk</a></li>
               </ul>
             </div>
@@ -47,30 +48,28 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="intro-header" style="background-image: url('img/bg2.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
+    <header class='intro-header' style="background-image: url('img/bg2.jpg')">
+      <div class='container'>
+          <div class='col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1'>
+            <div class='post-heading'>
               <h1>Quorum slices and the quorum function</h1>
-              <!-- <h2 class="subheading">Problems look mighty small from 150 miles up</h2> -->
+              <!-- <h2 class='subheading'>Problems look mighty small from 150 miles up</h2> -->
             </div>
           </div>
-        </div>
       </div>
     </header>
 
     <!-- Post Content -->
     <article>
-    <div class="container">
-      <div class="content" role="main">
+    <div class='container'>
+      <div class='content' role='main'>
 
 
         
 <!-- <h1>Quorum slices and the quorum function</h1>
 <p>2013-07-15 12:00:00</p> -->
 <h1>The Stellar protocol: quorum slices and the quorum function</h1>
-<p><em>In this post, we explain how Stellar reaches network-wide consensus using quorum slices. We go over 2 key ideas, quorum slices and the quorum function, which are not cryptographic in nature but set-theoretic, using <a href="https://www.python.org/">Python</a>.</em></p>
+<p><em>In this post, we explain how Stellar reaches network-wide consensus using quorum slices. We go over 2 key ideas, quorum slices and the quorum function, which are not cryptographic in nature but set-theoretic, using <a href='https://www.python.org/'>Python</a>.</em></p>
 <p>A key technical innovation of the Stellar protocol is the introduction of <strong>federated Byzantine agreements</strong>. These allow 4 cool things:</p>
 <ol>
 <li>To reach consensus <strong>fast</strong> and <strong>cheaply</strong>: within a few seconds and spending little energy</li>
